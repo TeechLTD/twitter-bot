@@ -1,5 +1,5 @@
 # secrets
-.env
+config.ini
 
 # virtual environment
 env
