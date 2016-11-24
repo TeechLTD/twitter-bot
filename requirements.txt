@@ -1,2 +1,2 @@
-Tweepy
+Tweepy=3.5.0
 setuptools
