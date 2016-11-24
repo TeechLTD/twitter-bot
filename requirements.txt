@@ -1,3 +1,2 @@
 Tweepy
-Configparser
-json
+setuptools
