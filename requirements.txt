@@ -1,1 +1,3 @@
 Tweepy
+Configparser
+json
