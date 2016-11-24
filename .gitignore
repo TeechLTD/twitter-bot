@@ -1,5 +1,5 @@
 # secrets
-config.ini
+credentials.py
 
 # virtual environment
 env
