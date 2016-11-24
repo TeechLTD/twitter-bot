@@ -4,6 +4,6 @@ auth = tweepy.OAuthHandler(os.environ['CONSUMER_KEY'], os.environ['CONSUMER_SECR
 auth.set_access_token(os.environ['ACCESS_TOKEN'], os.environ['ACCESS_SECRET'])
 bot = tweepy.API(auth)
 
-bot.update_status('www.getaderal.com')
+bot.update_status('here to serve')
 
 print "success"
