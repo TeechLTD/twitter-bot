@@ -1,27 +1,27 @@
 import tweepy, json, os
-import credentials
+
+if os.environ["bot_env"] == 'development':
+     import credentials
 
 auth = tweepy.OAuthHandler(os.environ['CONSUMER_KEY'], os.environ['CONSUMER_SECRET'])
 auth.set_access_token(os.environ['ACCESS_TOKEN'], os.environ['ACCESS_SECRET'])
 bot = tweepy.API(auth)
 
-def tweet():
-    with open('tweets.txt','r') as f:
-        line = f.readline()
-        print(line.rstrip('\n'))
-        print
-        lines = f.readlines()
+def duplicate():
 
-    for line in lines:
-        print(line.rstrip('\n'))
 
     return;
 
+def tweet():
+    from tweets import tweet_list
+
+    for tweet in tweet_list:
+        bot.upda
+    return;
+
+
+
 tweet()
-
-
-
-
 
 
 

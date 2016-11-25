@@ -1,6 +1,8 @@
+# general
+  *.pyc
+
 # secrets
 credentials.py
-credentials.pyc
 
 # virtual environment
 env
