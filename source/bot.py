@@ -7,8 +7,8 @@ if os.environ["bot_env"] == 'development':
 class StreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
-        get_tweet(status)
-        # act_on_tweet(status)
+        display_tweet(status)
+        act_on_tweet(status)
 
     def on_error(self, status):
         if status_code == 420:
@@ -21,33 +21,58 @@ class StreamListener(tweepy.StreamListener):
             time.sleep(15)
             return True
 
-def get_tweet(tweet):
+def display_tweet(tweet):
     print("Tweet Message : " + tweet.text)
     print("Tweet id : " + str(tweet.id))
     print("Tweet user : " + tweet.user.name)
-    print("Tweet user : " + str(tweet.user.id) + "\n")
+    print("Tweet user id : " + str(tweet.user.id) + "\n")
 
 def act_on_tweet(tweet):
-    id = tweet.id
-    bot.create_favorite(id)
+    tweet_id = tweet.id
+    user_id = tweet.user.id
+    user_name = tweet.user.name
+
+    # favorite tweet
+    bot.create_favorite(tweet_id)
+
+    if "getaderalv2" in tweet.text
+    reply = "@%s, you've been invited to join our community.We are revolutionizing the market. getaderal.com" % (user_name)
+    try:
+        bot.update_status(reply, tweet_id)
+        wait_a_minute
+    except:
+        pass
+
+    wait_a_minute
+
+def direct_message(user):
+
+    try:
+        bot.send_direct_message
+
+
+def unfollow(user_list):
+
+    return None
+
+# prevent excessive spamming
+def wait_a_minute():
     sleep(60)
-    return;
 
 if __name__ == '__main__':
     auth = tweepy.OAuthHandler(keys['CONSUMER_KEY'], keys['CONSUMER_SECRET'])
     auth.secure = True
     auth.set_access_token(keys['ACCESS_TOKEN'], keys['ACCESS_SECRET'])
 
+    # create bot
     bot = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,  retry_count=10, retry_delay=5, retry_errors=5)
 
-
-    bot.update_status("Back")
+    # Create stream
     streamListener  = StreamListener()
     myStream = tweepy.Stream(auth=bot.auth, listener=streamListener)
 
-    search_terms = ["adderal", "aderal", "adderral", "I need adderall", "Education", "need a tutor"]
-
-    myStream.filter(track=search_terms, async=True)
+    search_terms = ["adderal", "aderal", "adderral", "I need adderall", '@getaderalv2', 'getaderal.com']
+    myStream.filter(languages=["en"], track=search_terms, async=True)
 
 
 

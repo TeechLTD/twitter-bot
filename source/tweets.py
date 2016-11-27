@@ -7,5 +7,3 @@ tweet_list = ['www.getaderal.com coming soon',
 replies = {}
 replies['aderal'] = ""
 replies['education'] = "Hi friend, we're an invite only education centered "
-
-message = ""
