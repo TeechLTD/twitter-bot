@@ -40,6 +40,8 @@ if __name__ == '__main__':
 
     bot = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,  retry_count=10, retry_delay=5, retry_errors=5)
 
+
+    bot.update_status("I am online!")
     streamListener  = StreamListener()
     myStream = tweepy.Stream(auth=bot.auth, listener=streamListener)
 
