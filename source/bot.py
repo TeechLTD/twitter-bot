@@ -40,7 +40,8 @@ def act_on_tweet(tweet):
         print(tweet.text + "\n")
     except Exception as e:
         print("favoriting a tweet by: " + user.name + " failed! \n" )
-        print(e + "\n")
+        print(e)
+        print("\n")
         pass
 
     time.sleep(90)
@@ -51,15 +52,17 @@ def act_on_tweet(tweet):
             reply(tweet_id, user.name)
         except Exception as e:
             print("replying to: " + user.name + " failed!" )
-            print(e + "\n")
-            
+            print(e)
+            print "\n"
+
     if not follower:
         try:
             api.create_friendship(user.id, api.me)
             print("Requested to follow :" + user.name + "\n")
         except Exception as e:
             print("request to follow: " + user.name + " failed!" )
-            print(e + "\n")
+            print(e)
+            print "\n"
 
     time.sleep(90)
 
@@ -106,4 +109,4 @@ if __name__ == '__main__':
     search_terms = ["adderal", "aderal", "adderral", "I need adderall", '@aderalv2', 'getaderal.com', 'need a tutor', 'A-levels']
     myStream.filter(languages=["en"], track=search_terms, async=True)
 
-print "Fetching..... \n"
+print "Listening..... \n"
