@@ -8,17 +8,30 @@ class StreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
         get_tweet(status)
-        act_on_tweet(status)
+        # act_on_tweet(status)
 
     def on_error(self, status):
-        print status
-        time.sleep(15)
-        return True
+        if status_code == 420:
+            return False
+        elif status_code == 403:
+            return False
+        elif status_code == 429:
+            return False
+        else:
+            time.sleep(15)
+            return True
 
 def get_tweet(tweet):
-    print("Tweet Message : " + tweet.text + "\n")
+    print("Tweet Message : " + tweet.text)
+    print("Tweet id : " + str(tweet.id))
+    print("Tweet user : " + tweet.user.name)
+    print("Tweet user : " + str(tweet.user.id) + "\n")
 
 def act_on_tweet(tweet):
+    id = tweet.id
+    bot.create_favorite(id)
+    sleep(60)
+    return;
 
 if __name__ == '__main__':
     auth = tweepy.OAuthHandler(keys['CONSUMER_KEY'], keys['CONSUMER_SECRET'])
@@ -31,6 +44,9 @@ if __name__ == '__main__':
     myStream = tweepy.Stream(auth=bot.auth, listener=streamListener)
 
     search_terms = ["adderal", "aderal", "adderral", "I need adderall", "Education", "need a tutor"]
+
     myStream.filter(track=search_terms, async=True)
+
+
 
 print "Fetching..... \n"
