@@ -22,9 +22,10 @@ class StreamListener(tweepy.StreamListener):
 
 def display_tweet(tweet):
     print("Tweet Message : " + tweet.text)
-    print("Tweet id : " + tweet.id.encode('utf-8'))
-    print("Tweet user : " + tweet.user.name)
-    print("Tweet user id : " + (tweet.user.id).encode('utf-8') + "\n")
+    print("Tweet id : " + str(tweet.id))
+    print("Tweet user name : " + tweet.user.name)
+    print("Tweet user handle : " + tweet.user.screen_name)
+    print("Tweet user id : " + str(tweet.user.id) + "\n")
 
 
 def act_on_tweet(tweet):
@@ -32,7 +33,6 @@ def act_on_tweet(tweet):
     user = tweet.user
 
     follower = follow_us(user)
-    time.sleep(90)
 
     try:
         api.create_favorite(tweet_id)
@@ -44,12 +44,13 @@ def act_on_tweet(tweet):
         print("\n")
         pass
 
-    time.sleep(90)
+    print("sleeping... " + "\n")
+    time.sleep(45)
 
     if "@aderalv2" in tweet.text:
         try:
             api.retweet(tweet_id)
-            reply(tweet_id, user.name)
+            reply(tweet_id, user.screen_name)
         except Exception as e:
             print("replying to: " + user.name + " failed!" )
             print(e)
@@ -64,16 +65,13 @@ def act_on_tweet(tweet):
             print(e)
             print "\n"
 
-    time.sleep(90)
-
-def reply(tweet_id, user_name):
-    reply = "@%s, we are listening. Join our community today to boost your potential." % (user_name)
+def reply(tweet_id, user_handle):
+    reply = "@%s, we are listening. Join our community today to boost your potential." % (user_handle)
     try:
         api.update_status(reply, tweet_id)
-        print("Retweeted and replied to: " + user.name + "\n")
-        time.sleep(90)
+        print("Retweeted and replied to: " + user_handle + "\n")
     except:
-        print("reply to: " + user.name + " failed! \n" )
+        print("reply to: " + user_handle + " failed! \n" )
         pass
 
 def follow_us(user):
@@ -95,8 +93,12 @@ def unfollow(user_list):
     # TODO
     return None
 
+def listen(stream, search_terms):
+    stream.filter(languages=["en"], track=search_terms, async=True)
 
 if __name__ == '__main__':
+
+    os.system('cls||clear')
 
     auth = tweepy.OAuthHandler(keys['CONSUMER_KEY'], keys['CONSUMER_SECRET'])
     auth.secure = True
@@ -107,6 +109,12 @@ if __name__ == '__main__':
     myStream = tweepy.Stream(auth=api.auth, listener=streamListener)
 
     search_terms = ["adderal", "aderal", "adderral", "I need adderall", '@aderalv2', 'getaderal.com', 'need a tutor', 'A-levels']
-    myStream.filter(languages=["en"], track=search_terms, async=True)
+
+    try:
+        listen(myStream, search_terms)
+    except Exception as e:
+        print(e)
+        print("\n" + "Restarting stream...." + "\n")
+        listen(myStream, search_terms)
 
 print "Listening..... \n"
