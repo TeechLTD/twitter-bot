@@ -1,7 +1,4 @@
-import tweepy, os, time
-
-if os.environ["bot_env"] == 'development':
-     from credentials import keys
+import tweepy
 
 class StreamListener(tweepy.StreamListener):
 
@@ -12,17 +9,25 @@ class StreamListener(tweepy.StreamListener):
 
 
     def on_error(self, status):
-        if status_code == 420:
+        if status_code is 420:
             return False
-        elif status_code == 403:
+        elif status_code is 403:
             return False
-        elif status_code == 429:
+        elif status_code is 429:
+            return False
+        elif status_code is 502:
+            sleep(120)
+            return False
+        elif status_code is 503:
+            sleep(120)
+            return False
+        elif status_code is 504:
+            sleep(120)
             return False
         else:
             print(status)
-            print("\n" + "Restarting stream.... (120 seconds pause)" + "\n")
             time.sleep(120)
-            return True
+            return False
 
 def display_tweet(tweet):
     print("Tweet Message : " + tweet.text)
@@ -92,19 +97,3 @@ def direct_message(user):
         print("direct message to: " + user.name + " failed! \n" )
         pass
     time.sleep(90)
-
-if __name__ == '__main__':
-
-    os.system('clear')
-
-    auth = tweepy.OAuthHandler(keys['CONSUMER_KEY'], keys['CONSUMER_SECRET'])
-    auth.secure = True
-    auth.set_access_token(keys['ACCESS_TOKEN'], keys['ACCESS_SECRET'])
-
-    api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,  retry_count=10, retry_delay=5, retry_errors=5, timeout=60)
-    streamListener = StreamListener()
-    myStream = tweepy.Stream(auth=api.auth, listener=streamListener)
-
-    search_terms = ["adderal", "aderal", "adderral", "I need adderall", '@aderalv2', 'getaderal.com', 'need a tutor', 'A-levels']
-
-    myStream.filter(languages=["en"], track=search_terms, async=True)
