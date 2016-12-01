@@ -6,8 +6,10 @@ if os.environ["bot_env"] == 'development':
 class StreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
-        # display_tweet(status)
-        act_on_tweet(status)
+            # display_tweet(status)
+            print "Listening..... \n"
+            act_on_tweet(status)
+
 
     def on_error(self, status):
         if status_code == 420:
@@ -17,7 +19,9 @@ class StreamListener(tweepy.StreamListener):
         elif status_code == 429:
             return False
         else:
-            time.sleep(90)
+            print(status)
+            print("\n" + "Restarting stream.... (120 seconds pause)" + "\n")
+            time.sleep(120)
             return True
 
 def display_tweet(tweet):
@@ -89,32 +93,18 @@ def direct_message(user):
         pass
     time.sleep(90)
 
-def unfollow(user_list):
-    # TODO
-    return None
-
-def listen(stream, search_terms):
-    stream.filter(languages=["en"], track=search_terms, async=True)
-
 if __name__ == '__main__':
 
-    os.system('cls||clear')
+    os.system('clear')
 
     auth = tweepy.OAuthHandler(keys['CONSUMER_KEY'], keys['CONSUMER_SECRET'])
     auth.secure = True
     auth.set_access_token(keys['ACCESS_TOKEN'], keys['ACCESS_SECRET'])
 
-    api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,  retry_count=10, retry_delay=5, retry_errors=5)
+    api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,  retry_count=10, retry_delay=5, retry_errors=5, timeout=60)
     streamListener = StreamListener()
     myStream = tweepy.Stream(auth=api.auth, listener=streamListener)
 
     search_terms = ["adderal", "aderal", "adderral", "I need adderall", '@aderalv2', 'getaderal.com', 'need a tutor', 'A-levels']
 
-    try:
-        listen(myStream, search_terms)
-    except Exception as e:
-        print(e)
-        print("\n" + "Restarting stream...." + "\n")
-        listen(myStream, search_terms)
-
-print "Listening..... \n"
+    myStream.filter(languages=["en"], track=search_terms, async=True)
