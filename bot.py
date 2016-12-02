@@ -21,4 +21,4 @@ if __name__ == '__main__':
     stream.filter(languages=["en"], track=search_terms, async=True)
 
     print("Listening...")
-    print("Press ctrl-shit-/ to interrupt \n")
+    print("Press ctrl-shift-/ to interrupt \n")
