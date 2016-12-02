@@ -19,4 +19,4 @@ if __name__ == '__main__':
     streamListener = stream.Stream(api)
     stream = tweepy.Stream(auth=api.auth, listener=streamListener)
 
-    stream.filter(languages=["en"], track=tutor_query, async=True)
+    stream.filter(languages=["en"], track=search_terms, async=True)

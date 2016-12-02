@@ -7,10 +7,10 @@ class Stream(tweepy.StreamListener):
         print("Initialising..... \n")
         self.api = api_instance
         direct_message_new_followers(self.api)
-
-    def on_status(self, status):
         print("Listening...")
         print("Press ctrl-shift-/ to interrupt \n")
+
+    def on_status(self, status):
         act_on(status, self.api)
 
     def on_error(self, status):
