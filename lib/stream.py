@@ -4,11 +4,9 @@ from processor import act_on, display_tweet
 class Stream(tweepy.StreamListener):
 
     def __init__(self, api_instance):
-        print("1")
         self.api = api_instance
 
     def on_status(self, status):
-        print("2")
         act_on(status, self.api)
 
     def on_error(self, status):
