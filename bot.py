@@ -12,7 +12,7 @@ if __name__ == '__main__':
     auth.set_access_token(keys['ACCESS_TOKEN'], keys['ACCESS_SECRET'])
 
     start_time = time.time()
-    search_terms = ["adderal", "aderal", "adderral", "I need adderall", '@aderalv2', 'getaderal.com', 'need a tutor', 'A-levels']
+    search_terms = ["adderal", "aderal", "adderral", "I need adderall", '@aderalv2', 'getaderal.com', 'need a tutor', 'A-levels', 'trump']
 
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,  retry_count=10, retry_delay=5, retry_errors=5, timeout=60)
     streamListener = stream.Stream(api)

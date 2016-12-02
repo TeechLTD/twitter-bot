@@ -28,15 +28,15 @@ def act_on(tweet, api):
 
 def favorite(tweet, api, user):
     """tries to favorite a tweet"""
-    print([tweet.id])
     try:
-        api.create_favorite([[tweet.id]])
+        api.create_favorite((tweet.id))
         print("favorited a tweet by: " + user.name)
         print(tweet.text + "\n")
     except Exception as e:
         print("favoriting a tweet by: " + user.name + " failed!" )
         print(e)
         print("\n")
+    time.sleep(900)
 
 def follow(user, api):
     """follows a specific user"""
