@@ -11,57 +11,54 @@ def display_tweet(tweet):
 
 def act_on(tweet, api):
     """main logic"""
-    print("3")
 
-    tweet_id = tweet.id
     user = tweet.user
     follower = follow_us(user, api)
     mention = "@aderalv2" in tweet.text
 
-    favorite(tweet, api)
+    favorite(tweet, api, user)
 
-    print("sleeping... " + "\n")
     time.sleep(45)
 
     if mention:
-        reply_and_retweet(tweet_id, user.screen_name, api)
+        reply_and_retweet(tweet, user, api)
 
     if not follower:
-        follow(user.id, api)
+        follow(user, api)
 
-def favorite(tweet_id, api):
+def favorite(tweet, api, user):
     """tries to favorite a tweet"""
 
     try:
-        api.create_favorite(tweet_id)
+        api.create_favorite([tweet.id])
         print("favorited a tweet by: " + user.name)
         print(tweet.text + "\n")
     except Exception as e:
-        print("favoriting a tweet by: " + user.name + " failed! \n" )
+        print("favoriting a tweet by: " + user.name + " failed!" )
         print(e)
         print("\n")
-        pass
 
-def follow(user_id, api):
+def follow(user, api):
+
     try:
-        api.create_friendship(user_id, api.me)
+        api.create_friendship(user.id, api.me)
         print("Requested to follow :" + user.name + "\n")
     except Exception as e:
         print("request to follow: " + user.name + " failed!" )
         print(e)
         print "\n"
 
-def reply(tweet_id, user_handle, api):
+def reply(tweet, user, api):
     """replies to tweets"""
 
-    reply = "@%s, we are listening. Join our community today to boost your potential." % (user_handle)
+    reply = "@%s, we are listening. Join our community today to boost your potential." % (user.screen_name)
     try:
-        api.retweet(tweet_id)
-        api.update_status(reply, tweet_id)
-        print("Retweeted and replied to: " + user_handle + "\n")
+        api.retweet(tweet.id)
+        api.update_status(reply, tweet.id)
+        print("Retweeted and replied to: " + user.screen_name + "\n")
     except:
-        print("reply to: " + user_handle + " failed! \n" )
-        pass
+        print("reply to: " + user.screen_name + " failed!" )
+        print(e)
 
 def follow_us(user, api):
     """checks if a user follows us or not"""
@@ -73,11 +70,11 @@ def follow_us(user, api):
 def direct_message(user, api):
     """sends a direct message to a user"""
 
-    message = "@%s, welcome to our world. To learn more about our exclusive product and reserve your spot in the waitlist - follow the link in our bio." % (user_name)
+    message = "@%s, welcome to our world. To learn more about our exclusive product and reserve your spot in the waitlist - follow the link in our bio." % (user.screen_name)
     try:
         api.send_direct_message(user.id)
         print("sent a direct message to: " + user.name + "\n")
     except:
         print("direct message to: " + user.name + " failed! \n" )
-        pass
+
     time.sleep(90)
