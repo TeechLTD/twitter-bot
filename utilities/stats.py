@@ -19,11 +19,14 @@ if __name__ == '__main__':
     for friend in tweepy.Cursor(api.friends_ids, screen_name).items():
         friends.append(friend)
 
-    data = api.rate_limit_status(ressources=[followers, friends])
+    non_reciprocal = list(set(friends) - set(followers))
+
+    data = api.rate_limit_status()
     hits_left = data['resources']['followers']['/followers/ids']['remaining']
     hits_left += data['resources']['friends']['/friends/ids']['remaining']
 
-    print(str(hits_left) + " api calls remaining \n")
 
+    print(str(hits_left) + " api calls remaining \n")
     print "FOLLOWING - " + str(len(friends)) + " people"
     print "FOLLOWERS - " + str(len(followers)) + " people"
+    print str(len(non_reciprocal)) + " non-reciprocal followers.\n"
