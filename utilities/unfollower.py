@@ -56,6 +56,8 @@ def fetch_upper_bound():
     if upper_bound > 200:
         upper_bound = 200
 
+    return upper_bound
+
 if __name__ == '__main__':
     auth = tweepy.OAuthHandler(keys['CONSUMER_KEY'], keys['CONSUMER_SECRET'])
     auth.secure = True
