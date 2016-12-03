@@ -4,9 +4,10 @@ from processor import act_on, display_tweet, direct_message_new_followers
 class Stream(tweepy.StreamListener):
 
     def __init__(self, api_instance):
-        print("Initialising..... \n")
         self.api = api_instance
         direct_message_new_followers(self.api)
+
+
         print("Listening...")
         print("Press ctrl-shift-/ to interrupt \n")
 
