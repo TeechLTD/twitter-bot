@@ -2,14 +2,14 @@ import sys, os, time, tweepy, json
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from credentials import keys
 
-if __name__ == '__main__':
-    auth = tweepy.OAuthHandler(keys['CONSUMER_KEY'], keys['CONSUMER_SECRET'])
-    auth.secure = True
-    auth.set_access_token(keys['ACCESS_TOKEN'], keys['ACCESS_SECRET'])
-    screen_name = 'aderalv2'
+def fetch_api_status():
+    data = api.rate_limit_status()
+    hits_left = data['resources']['followers']['/followers/ids']['remaining']
+    hits_left += data['resources']['friends']['/friends/ids']['remaining']
 
-    api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,  retry_count=10, retry_delay=5, retry_errors=5, timeout=60)
+    return hits_left
 
+def fetch_sets():
     followers = []
     friends = []
 
@@ -21,10 +21,19 @@ if __name__ == '__main__':
 
     non_reciprocal = list(set(friends) - set(followers))
 
-    data = api.rate_limit_status()
-    hits_left = data['resources']['followers']['/followers/ids']['remaining']
-    hits_left += data['resources']['friends']['/friends/ids']['remaining']
+    return (followers, friends, non_reciprocal)
 
+
+if __name__ == '__main__':
+    auth = tweepy.OAuthHandler(keys['CONSUMER_KEY'], keys['CONSUMER_SECRET'])
+    auth.secure = True
+    auth.set_access_token(keys['ACCESS_TOKEN'], keys['ACCESS_SECRET'])
+    screen_name = 'aderalv2'
+
+    api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,  retry_count=10, retry_delay=5, retry_errors=5, timeout=60)
+
+    followers, friends, non_reciprocal = fetch_sets()
+    hits_left = fetch_api_status()
 
     print(str(hits_left) + " api calls remaining \n")
     print "FOLLOWING - " + str(len(friends)) + " people"

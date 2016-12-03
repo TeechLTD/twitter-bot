@@ -9,23 +9,37 @@ def get_parameters():
     """Left as a method to allow for multiple account selecting in the future"""
 
     target_account = raw_input("Enter an account's twitter handle \n")
-    upper_bound = int(raw_input("Enter an upper bound on the total number of people you wish to follow - \n"))
+    upper_bound = int(raw_input("Enter an upper bound on the total number of people you wish to follow (max 190)- \n"))
+
+    if upper_bound > 190:
+        upper_bound = 190
 
     return (target_account, upper_bound)
 
-def follow(users):
+def fetch_api_status():
+    data = api.rate_limit_status()
+    hits_left = data['resources']['followers']['/followers/ids']['remaining']
+    hits_left += data['resources']['friends']['/friends/ids']['remaining']
+
+    return hits_left
+
+def follow(users, hits_left):
 
     success_count, error_count = 0, 0
+    
+    for user_id in tqdm(target_users, desc="sending follow requests"):
+            try:
+                api.create_friendship(user_id, api.me)
+                success_count += 1
+                sleep(3)
+                hits_left -= 1
+                if hits_left < 1:
+                    print("Hit api limit, exiting... try again later")
+                    break
+            except Exception as e:
+                error_count += 1
 
-    for user_id in tqdm(target_users, desc="sending follow requests", leave=False):
-        try:
-            api.create_friendship(user_id, api.me)
-            success_count += 1
-            sleep(1)
-        except Exception as e:
-            error_count += 1
-
-    print("\n followed " + str(success_count) + " user(s), with " + str(error_count) + " error(s)")
+    print("\nFollowed " + str(success_count) + " user(s), with " + str(error_count) + " error(s)")
 
 def fetch_users(target_account, upper_bound):
     target_users = []
@@ -44,9 +58,10 @@ if __name__ == '__main__':
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,  retry_count=10, retry_delay=5, retry_errors=5, timeout=60)
 
     target_account, upper_bound = get_parameters()
+    hits_left = fetch_api_status()
 
     target_users = fetch_users(target_account, upper_bound)
     print("Loaded " + str(len(target_users)) + " users into the pipeline \n")
     sleep(1)
 
-    follow(target_users)
+    follow(target_users, hits_left)

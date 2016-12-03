@@ -26,7 +26,7 @@ def fetch_api_status():
 
     return hits_left
 
-def unfollow(non_reciprocal, upper_bound):
+def unfollow(non_reciprocal, upper_bound, hits_left):
 
     # prevent 'out of range errors'
     if upper_bound > len(non_reciprocal):
@@ -40,11 +40,21 @@ def unfollow(non_reciprocal, upper_bound):
         try:
             # api.destroy_friendship(f)
             success_count += 1
-            sleep(1)
+            hits_left -= 1
+            sleep(3)
+            if hits_left < 1:
+                print("Hit api limit, exiting... Try again later")
+                break
         except Exception as e:
             error_count += 1
 
     print("done - killed " + str(success_count) + " non-followers, with " + str(error_count) + " errors")
+
+def fetch_upper_bound():
+    upper_bound = int(raw_input("Upper bound on number of friendships to kill ?\nThe bot kills from most ancient to most recent (max 200)\n"))
+
+    if upper_bound > 200:
+        upper_bound = 200
 
 if __name__ == '__main__':
     auth = tweepy.OAuthHandler(keys['CONSUMER_KEY'], keys['CONSUMER_SECRET'])
@@ -65,9 +75,9 @@ if __name__ == '__main__':
     hits_left = fetch_api_status()
     print(str(hits_left) + " api calls remaining (resets every 15min) \n")
 
-    upper_bound = int(raw_input("Upper bound on number of friendships to kill ?\nThe bot kills from most ancient to most recent \n"))
+    upper_bound = fetch_upper_bound()
 
     print("executing in 10 - press ctrl-c to abort - THIS CANNOT BE UNDONE\n")
     sleep(10)
 
-    unfollow(non_reciprocal, upper_bound)
+    unfollow(non_reciprocal, upper_bound, hits_left)
