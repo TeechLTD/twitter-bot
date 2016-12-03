@@ -19,13 +19,6 @@ def fetch_sets():
 
     return (followers, friends, non_reciprocal)
 
-def fetch_api_status():
-    data = api.rate_limit_status()
-    hits_left = data['resources']['followers']['/followers/ids']['remaining']
-    hits_left += data['resources']['friends']['/friends/ids']['remaining']
-
-    return hits_left
-
 def unfollow(non_reciprocal, upper_bound):
 
     # prevent 'out of range errors'
@@ -38,14 +31,15 @@ def unfollow(non_reciprocal, upper_bound):
     # reverse to start with most ancient
     for f in tqdm(subset, desc="Unfollowing..."):
         try:
-            # api.destroy_friendship(f)
+            api.destroy_friendship(f)
             success_count += 1
-            hits_left -= 1
-            sleep(3)
         except Exception as e:
+            error = e
             error_count += 1
+        sleep(3)
 
     print("done - killed " + str(success_count) + " non-followers, with " + str(error_count) + " errors")
+    if error: print(e)
 
 def fetch_upper_bound():
     upper_bound = int(raw_input("Upper bound on number of friendships to kill ?\nThe bot kills from most ancient to most recent (max 200)\n"))
@@ -68,10 +62,6 @@ if __name__ == '__main__':
     print "FOLLOWING - " + str(len(friends)) + " people"
     print "FOLLOWERS - " + str(len(followers)) + " people"
     print str(len(non_reciprocal)) + " non-reciprocal followers.\n"
-
-    # fetch api calls status
-    hits_left = fetch_api_status()
-    print(str(hits_left) + " api calls remaining (resets every 15min) \n")
 
     upper_bound = fetch_upper_bound()
 

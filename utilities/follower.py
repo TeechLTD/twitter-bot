@@ -16,14 +16,6 @@ def get_parameters():
 
     return (target_account, upper_bound)
 
-def fetch_api_status():
-    """get """
-
-    data = api.rate_limit_status()
-
-
-    return hits_left
-
 def follow(users):
 
     success_count, error_count = 0, 0
@@ -54,7 +46,6 @@ if __name__ == '__main__':
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,  retry_count=10, retry_delay=5, retry_errors=5, timeout=60)
 
     target_account, upper_bound = get_parameters()
-    hits_left = fetch_api_status()
 
     target_users = fetch_users(target_account, upper_bound)
     print("Loaded " + str(len(target_users)) + " users into the pipeline \n")
