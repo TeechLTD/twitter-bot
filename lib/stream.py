@@ -5,7 +5,7 @@ class Stream(tweepy.StreamListener):
 
     def __init__(self, api_instance):
         self.api = api_instance
-        direct_message_new_followers(self.api)
+        # direct_message_new_followers(self.api)
 
 
         print("Listening...")

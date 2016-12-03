@@ -10,33 +10,6 @@ def display_tweet(tweet, api):
     print("Tweet user handle : " + tweet.user.screen_name)
     print("Tweet user id : " + str(tweet.user.id) + "\n")
 
-def direct_message_new_followers(api):
-    """runs on stream __init__, messages all new followers"""
-
-    screen_name = 'aderalv2'
-    followers = []
-    unmessaged_followers = []
-
-    print("Fetching un-messaged followers .... ")
-    for user in tweepy.Cursor(api.followers).items():
-        followers.append(user)
-
-    for user in followers:
-        # check if we messaged the user
-        messaged = check_conversation(user, api)
-        if not messaged:
-            unmessaged_followers.append(user)
-
-    time.sleep(20)
-    for user in unmessaged_followers:
-        direct_message(user, api)
-
-    print("Messaged un-messaged followers \n")
-
-def check_conversation(user, api):
-    # TODO
-    return True
-
 def act_on(tweet, api):
     """main logic"""
 
@@ -107,3 +80,31 @@ def direct_message(user, api):
         print("direct message to: " + user.name + " failed! \n" )
 
     time.sleep(90)
+
+def direct_message_new_followers(api):
+    """runs on stream __init__, messages all new followers"""
+
+    screen_name = 'aderalv2'
+    followers = []
+    unmessaged_followers = []
+
+    print("Fetching un-messaged followers .... ")
+    for user in tweepy.Cursor(api.followers).items():
+        followers.append(user)
+
+    for user in followers:
+        # check if we messaged the user
+        messaged = check_conversation(user, api)
+        if not messaged:
+            unmessaged_followers.append(user)
+
+    time.sleep(20)
+    for user in unmessaged_followers:
+        direct_message(user, api)
+
+    print("Messaged un-messaged followers \n")
+
+def check_conversation(user, api):
+    # return false if user has not been messaged, true if messaged
+
+    return True
