@@ -26,25 +26,22 @@ def fetch_api_status():
 
     return hits_left
 
-def unfollow(non_reciprocal, upper_bound, hits_left):
+def unfollow(non_reciprocal, upper_bound):
 
     # prevent 'out of range errors'
     if upper_bound > len(non_reciprocal):
         upper_bound = len(non_reciprocal)
 
-    subset = [non_reciprocal[i] for i in range(upper_bound)]
+    subset = reversed([non_reciprocal[i] for i in range(upper_bound)])
     success_count, error_count = 0, 0
 
     # reverse to start with most ancient
-    for f in tqdm(reversed(subset), desc="Unfollowing..."):
+    for f in tqdm(subset, desc="Unfollowing..."):
         try:
             # api.destroy_friendship(f)
             success_count += 1
             hits_left -= 1
             sleep(3)
-            if hits_left < 1:
-                print("Hit api limit, exiting... Try again later")
-                break
         except Exception as e:
             error_count += 1
 
@@ -60,7 +57,6 @@ def fetch_upper_bound():
 
 if __name__ == '__main__':
     auth = tweepy.OAuthHandler(keys['CONSUMER_KEY'], keys['CONSUMER_SECRET'])
-    auth.secure = True
     auth.set_access_token(keys['ACCESS_TOKEN'], keys['ACCESS_SECRET'])
     screen_name = 'aderalv2'
 
@@ -82,4 +78,4 @@ if __name__ == '__main__':
     print("executing in 10 - press ctrl-c to abort - THIS CANNOT BE UNDONE\n")
     sleep(10)
 
-    unfollow(non_reciprocal, upper_bound, hits_left)
+    unfollow(non_reciprocal, upper_bound)

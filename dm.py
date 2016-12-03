@@ -15,7 +15,7 @@ def direct_message_new_followers():
     for user in tweepy.Cursor(api.followers).items():
         followers.append(user)
 
-    api.sent_direct_messages((api.me, 1))
+
 
     #
     # #create list of unmessaged followers
@@ -36,6 +36,6 @@ if __name__ == '__main__':
 
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,  retry_count=10, retry_delay=5, retry_errors=5, timeout=60)
 
-    print("still in development")
+    # api.sent_direct_messages()
 
-    # direct_message_new_followers()
+    print api.rate_limit_status()

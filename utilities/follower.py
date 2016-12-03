@@ -17,25 +17,22 @@ def get_parameters():
     return (target_account, upper_bound)
 
 def fetch_api_status():
+    """get """
+
     data = api.rate_limit_status()
-    hits_left = data['resources']['followers']['/followers/ids']['remaining']
-    hits_left += data['resources']['friends']['/friends/ids']['remaining']
+
 
     return hits_left
 
-def follow(users, hits_left):
+def follow(users):
 
     success_count, error_count = 0, 0
-    
+
     for user_id in tqdm(target_users, desc="sending follow requests"):
             try:
                 api.create_friendship(user_id, api.me)
                 success_count += 1
                 sleep(3)
-                hits_left -= 1
-                if hits_left < 1:
-                    print("Hit api limit, exiting... try again later")
-                    break
             except Exception as e:
                 error_count += 1
 
@@ -51,7 +48,6 @@ def fetch_users(target_account, upper_bound):
 
 if __name__ == '__main__':
     auth = tweepy.OAuthHandler(keys['CONSUMER_KEY'], keys['CONSUMER_SECRET'])
-    auth.secure = True
     auth.set_access_token(keys['ACCESS_TOKEN'], keys['ACCESS_SECRET'])
     screen_name = 'aderalv2'
 
@@ -64,4 +60,4 @@ if __name__ == '__main__':
     print("Loaded " + str(len(target_users)) + " users into the pipeline \n")
     sleep(1)
 
-    follow(target_users, hits_left)
+    follow(target_users)

@@ -26,7 +26,6 @@ def fetch_sets():
 
 if __name__ == '__main__':
     auth = tweepy.OAuthHandler(keys['CONSUMER_KEY'], keys['CONSUMER_SECRET'])
-    auth.secure = True
     auth.set_access_token(keys['ACCESS_TOKEN'], keys['ACCESS_SECRET'])
     screen_name = 'aderalv2'
 
