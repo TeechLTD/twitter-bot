@@ -15,8 +15,7 @@ def get_parameters():
 
 def follow(users):
 
-    success_count = 0
-    error_count = 0
+    success_count, error_count = 0, 0
 
     for user_id in tqdm(target_users, desc="sending follow requests", leave=False):
         try:
