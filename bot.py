@@ -16,4 +16,5 @@ if __name__ == '__main__':
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,  retry_count=10, retry_delay=5, retry_errors=5, timeout=60)
     streamListener = stream.Stream(api)
     stream = tweepy.Stream(auth=api.auth, listener=streamListener)
+
     stream.filter(languages=["en"], track=search_terms, async=True)
