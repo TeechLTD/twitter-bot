@@ -3,6 +3,7 @@
 
 # secrets
 credentials.py
+.env
 
 # virtual environment
 env
