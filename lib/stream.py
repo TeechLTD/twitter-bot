@@ -5,16 +5,15 @@ class Stream(tweepy.StreamListener):
 
     def __init__(self, api_instance):
         self.api = api_instance
-        # direct_message_new_followers(self.api)
-
 
         print("Listening...")
         print("Press ctrl-shift-/ to interrupt \n")
 
     def on_status(self, status):
-        act_on(status, self.api)
+        display_tweet(status, self.api)
+        # act_on(status, self.api)
 
-    def on_error(self, status):
+    def on_error(self, status_code):
         if status_code is 420:
             return False
         elif status_code is 403:

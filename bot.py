@@ -11,10 +11,9 @@ if __name__ == '__main__':
     auth.set_access_token(keys['ACCESS_TOKEN'], keys['ACCESS_SECRET'])
 
     start_time = time.time()
-    search_terms = ['@TeechGlobal', 'need a tutor', 'A-levels']
+    search_terms = ['@TeechGlobal', 'need a tutor', 'A-levels', "help with calculus", "homework"]
 
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,  retry_count=10, retry_delay=5, retry_errors=5, timeout=60)
     streamListener = stream.Stream(api)
     stream = tweepy.Stream(auth=api.auth, listener=streamListener)
-
     stream.filter(languages=["en"], track=search_terms, async=True)
