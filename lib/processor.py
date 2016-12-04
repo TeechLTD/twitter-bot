@@ -53,7 +53,7 @@ def follow(user, api):
 def reply(tweet, user, api):
     """replies to tweets"""
 
-    reply = "@%s, we are listening. Join our community today to boost your potential." % (user.screen_name)
+    reply = "@%s, We can help! " % (user.screen_name)
     try:
         api.retweet(tweet.id)
         api.update_status(reply, tweet.id)
@@ -68,43 +68,3 @@ def follow_us(user, api):
     friendship = api.show_friendship(target_id=user.id)
     friends = friendship[1].followed_by
     return friends
-
-def direct_message(user, api):
-    """sends a direct message to a user"""
-
-    message = "@%s, welcome to our world. To learn more about our exclusive product and reserve your spot in the waitlist - follow the link in our bio." % (user.screen_name)
-    try:
-        api.send_direct_message(user.id)
-        print("sent a direct message to " + user.name + "\n")
-    except:
-        print("direct message to: " + user.name + " failed! \n" )
-
-    time.sleep(90)
-
-def direct_message_new_followers(api):
-    """runs on stream __init__, messages all new followers"""
-
-    screen_name = 'TeechGlobal'
-    followers = []
-    unmessaged_followers = []
-
-    print("Fetching un-messaged followers .... ")
-    for user in tweepy.Cursor(api.followers).items():
-        followers.append(user)
-
-    for user in followers:
-        # check if we messaged the user
-        messaged = check_conversation(user, api)
-        if not messaged:
-            unmessaged_followers.append(user)
-
-    time.sleep(20)
-    for user in unmessaged_followers:
-        direct_message(user, api)
-
-    print("Messaged un-messaged followers \n")
-
-def check_conversation(user, api):
-    # return false if user has not been messaged, true if messaged
-
-    return True
