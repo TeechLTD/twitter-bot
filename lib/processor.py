@@ -16,16 +16,23 @@ def act_on(tweet, api):
     user = tweet.user
     follower = follow_us(user, api)
     mention = "@TeechGlobal" in tweet.text
+    needs_a_tutor = "I need a tutor" in tweet.text
 
     favorite(tweet, api, user)
 
-    time.sleep(60)
-
-    if mention:
-        reply_and_retweet(tweet, user, api)
-
     if not follower:
         follow(user, api)
+
+    if needs_a_tutor:
+        reply = "@%s, we can connect you with a tutor for a video chat within minutes! First session is on us. DM for details" % (user.screen_name)
+        reply(tweet, user, reply, api)
+
+    # Commented out for now
+    # if mention:
+    #     reply = "@%s, thanks for reaching out! DM us your question and we'll take care o" % (user.screen_name)
+    #     reply(tweet, user, reply, api)
+
+    time.sleep(90)
 
 def favorite(tweet, api, user):
     """tries to favorite a tweet"""
@@ -50,17 +57,19 @@ def follow(user, api):
         print(e)
         print "\n"
 
-def reply(tweet, user, api):
+def reply(tweet, user, reply, api):
     """replies to tweets"""
 
-    reply = "@%s, We can help! " % (user.screen_name)
     try:
         api.retweet(tweet.id)
         api.update_status(reply, tweet.id)
         print("Retweeted and replied to: " + user.screen_name + "\n")
+        print("Original tweet - " + tweet.text + "\n")
     except:
         print("reply to: " + user.screen_name + " failed!" )
         print(e)
+
+    time.sleep(90)
 
 def follow_us(user, api):
     """checks if a user follows us or not"""

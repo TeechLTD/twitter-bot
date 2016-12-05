@@ -1,5 +1,5 @@
 import tweepy
-from processor import act_on, display_tweet, direct_message_new_followers
+from processor import act_on, display_tweet
 
 class Stream(tweepy.StreamListener):
 
