@@ -8,7 +8,7 @@ if __name__ == '__main__':
     os.system('clear')
 
     auth = tweepy.OAuthHandler(keys['TEECH_CONSUMER_KEY'], keys['TEECH_CONSUMER_SECRET'])
-    auth.set_TEECH_ACCESS_TOKEN(keys['TEECH_ACCESS_TOKEN'], keys['TEECH_ACCESS_SECRET'])
+    auth.set_access_token(keys['TEECH_ACCESS_TOKEN'], keys['TEECH_ACCESS_SECRET'])
 
     start_time = time.time()
     search_terms = ['@TeechGlobal', 'need a tutor', 'A-levels', 'gsce','help with calculus', 'homework help', 'homework']

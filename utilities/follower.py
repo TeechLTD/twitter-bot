@@ -48,7 +48,7 @@ def fetch_users(target_account, upper_bound):
 
 if __name__ == '__main__':
     auth = tweepy.OAuthHandler(keys['TEECH_CONSUMER_KEY'], keys['TEECH_CONSUMER_SECRET'])
-    auth.set_TEECH_ACCESS_TOKEN(keys['TEECH_ACCESS_TOKEN'], keys['TEECH_ACCESS_SECRET'])
+    auth.set_access_token(keys['TEECH_ACCESS_TOKEN'], keys['TEECH_ACCESS_SECRET'])
     screen_name = 'TeechGlobal'
 
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,  retry_count=10, retry_delay=5, retry_errors=5, timeout=60)
