@@ -10,8 +10,8 @@ class Stream(tweepy.StreamListener):
         print("Press ctrl-shift-/ to interrupt \n")
 
     def on_status(self, status):
-        display_tweet(status, self.api)
-        # act_on(status, self.api)
+        #display_tweet(status, self.api)
+        act_on(status, self.api)
 
     def on_error(self, status_code):
         if status_code is 420:

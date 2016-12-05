@@ -19,7 +19,7 @@ def act_on(tweet, api):
 
     favorite(tweet, api, user)
 
-    time.sleep(45)
+    time.sleep(60)
 
     if mention:
         reply_and_retweet(tweet, user, api)
@@ -37,7 +37,7 @@ def favorite(tweet, api, user):
         print("favoriting a tweet by: " + user.name + " failed!" )
         print(e)
         print("\n")
-    time.sleep(900)
+    time.sleep(60)
 
 def follow(user, api):
     """follows a specific user"""
@@ -68,3 +68,15 @@ def follow_us(user, api):
     friendship = api.show_friendship(target_id=user.id)
     friends = friendship[1].followed_by
     return friends
+
+def direct_message(user, api):
+    """sends a direct message to a user"""
+
+    message = "@%s, thanks for the follow. To show you our appreciation - your first class will be free on the app. Take a picture of your problem and send it to our network of profs. Most are top class upper-years or Phd's from Oxford, Cambridge and other leading universities with excellent knowledge of their topic. They answer in under 30 seconds on average. - Reach out to us with any questions - we're only a DM away. Love, Teech team" % (user.screen_name)
+    try:
+        api.send_direct_message(user.id)
+        print("sent a direct message to " + user.name + "\n")
+    except:
+        print("direct message to: " + user.name + " failed! \n" )
+
+    time.sleep(90)
