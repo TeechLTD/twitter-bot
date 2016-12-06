@@ -11,7 +11,7 @@ if __name__ == '__main__':
     auth.set_access_token(keys['TEECH_ACCESS_TOKEN'], keys['TEECH_ACCESS_SECRET'])
 
     start_time = time.time()
-    search_terms = ['@TeechGlobal', 'need a tutor', 'A-levels', 'gsce','help with calculus', 'homework help', 'homework']
+    search_terms = ['@TeechGlobal', 'need a tutor', 'A-levels', 'gsce','help with calculus', 'homework help']
 
     print("Tracking: " + str(search_terms) + "\n")
 
