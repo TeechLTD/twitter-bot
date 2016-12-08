@@ -24,7 +24,7 @@ def act_on(tweet, api):
         follow(user, api)
 
     if needs_a_tutor:
-        reply = "@%s, we can connect you with a tutor for a video chat within minutes! First session is on us. DM for details" % (user.screen_name)
+        reply = "@%s, we can connect you with a tutor for a video chat within minutes! First session is on us. DM for details" %(user.screen_name)
         reply(tweet, user, reply, api)
 
     # Commented out for now
@@ -44,7 +44,7 @@ def favorite(tweet, api, user):
         print("favoriting a tweet by: " + user.name + " failed!" )
         print(e)
         print("\n")
-    time.sleep(60)
+    time.sleep(90)
 
 def follow(user, api):
     """follows a specific user"""

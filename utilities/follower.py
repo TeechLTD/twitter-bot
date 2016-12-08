@@ -17,17 +17,20 @@ def get_parameters():
     return (target_account, upper_bound)
 
 def follow(users):
+    errors = []
 
     success_count, error_count = 0, 0
     for user_id in tqdm(target_users, desc="sending follow requests"):
             try:
-                api.create_friendship(user_id, api.me)
+                api.create_friendship((user_id), (api.me))
                 success_count += 1
-                sleep(3)
+                sleep(10)
             except Exception as e:
                 error_count += 1
+                errors.append(e)
 
     print("\nFollowed " + str(success_count) + " user(s), with " + str(error_count) + " error(s)")
+    print(errors[0])
 
 def fetch_users(target_account, upper_bound):
     target_users = []
