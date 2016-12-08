@@ -16,14 +16,13 @@ def act_on(tweet, api):
     user = tweet.user
     follower = follow_us(user, api)
     mention = "@TeechGlobal" in tweet.text
-    needs_a_tutor = "I need a tutor" in tweet.text
-
-    favorite(tweet, api, user)
+    needs_a_tutor = "I need a tutor" or "need help with homework" in tweet.text
 
     if not follower:
         follow(user, api)
 
     if needs_a_tutor:
+        favorite(tweet, api, user)
         reply = "@%s, we can connect you with a tutor for a video chat within minutes! First session is on us. DM for details" %(user.screen_name)
         reply(tweet, user, reply, api)
 
