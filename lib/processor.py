@@ -23,8 +23,8 @@ def act_on(tweet, api):
 
     if needs_a_tutor:
         favorite(tweet, api, user)
-        reply = "@%s, we can connect you with a tutor for a video chat within minutes! First session is on us. DM for details" %(user.screen_name)
-        reply(tweet, user, reply, api)
+        # reply = "@%s, we can connect you with a tutor for a video chat within minutes! First session is on us. DM for details" %(user.screen_name)
+        # reply(tweet, user, reply, api)
 
     # Commented out for now
     # if mention:
