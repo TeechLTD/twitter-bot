@@ -36,7 +36,7 @@ def unfollow(non_reciprocal, upper_bound):
         except Exception as e:
             error = e
             error_count += 1
-        sleep(3)
+        sleep(30)
 
     print("done - killed " + str(success_count) + " non-followers, with " + str(error_count) + " errors")
     if error: print(e)
