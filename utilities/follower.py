@@ -53,7 +53,7 @@ if __name__ == '__main__':
     auth = tweepy.OAuthHandler(keys['CONSUMER_KEY'], keys['CONSUMER_SECRET'])
     auth.secure = True
     auth.set_access_token(keys['ACCESS_TOKEN'], keys['ACCESS_SECRET'])
-    screen_name = 'aderalv2'
+    screen_name = ''
 
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True,  retry_count=10, retry_delay=5, retry_errors=5, timeout=60)
 
