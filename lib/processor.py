@@ -15,7 +15,7 @@ def act_on(tweet, api):
 
     user = tweet.user
     follower = follow_us(user, api)
-    mention = "@aderalv2" in tweet.text
+    mention = "@SCREEN_NAME" in tweet.text
 
     favorite(tweet, api, user)
 
@@ -84,7 +84,7 @@ def direct_message(user, api):
 def direct_message_new_followers(api):
     """runs on stream __init__, messages all new followers"""
 
-    screen_name = 'aderalv2'
+    screen_name = ''
     followers = []
     unmessaged_followers = []
 
